@@ -1,0 +1,1221 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>FinPilot</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+
+    <!-- Chart.js -->
+    <script
+        src="https://cdn.jsdelivr.net/npm/chart.js"
+    ></script>
+
+</head>
+
+
+<body>
+
+<div class="app-container">
+
+
+    <!-- ======================================================
+         SIDEBAR
+    ======================================================= -->
+
+    <aside class="sidebar">
+
+        <div class="logo-area">
+
+            <div class="logo-icon">
+                ₹
+            </div>
+
+            <div>
+
+                <h1>FinPilot</h1>
+
+                <p>Smart Finance</p>
+
+            </div>
+
+        </div>
+
+
+        <nav class="nav-menu">
+
+            <button
+                type="button"
+                class="nav-link active"
+                data-page="dashboard"
+            >
+                <span>📊</span>
+                Dashboard
+            </button>
+
+
+            <button
+                type="button"
+                class="nav-link"
+                data-page="transactions"
+            >
+                <span>💳</span>
+                Transactions
+            </button>
+
+
+            <button
+                type="button"
+                class="nav-link"
+                data-page="goals"
+            >
+                <span>🎯</span>
+                Goals
+            </button>
+
+
+            <button
+                type="button"
+                class="nav-link"
+                data-page="emi"
+            >
+                <span>🏦</span>
+                EMI Calculator
+            </button>
+
+
+            <button
+                type="button"
+                class="nav-link"
+                data-page="whatif"
+            >
+                <span>🔮</span>
+                What-If
+            </button>
+
+
+            <button
+                type="button"
+                class="nav-link"
+                data-page="ai"
+            >
+                <span>🤖</span>
+                FinPilot AI
+            </button>
+
+
+            <button
+                type="button"
+                class="nav-link"
+                data-page="settings"
+            >
+                <span>⚙️</span>
+                Settings
+            </button>
+
+        </nav>
+
+
+        <div class="sidebar-footer">
+
+            <div class="status-dot"></div>
+
+            <span>
+                Local AI
+            </span>
+
+        </div>
+
+    </aside>
+
+
+
+    <!-- ======================================================
+         MAIN CONTENT
+    ======================================================= -->
+
+    <main class="main-content">
+
+
+        <!-- ==================================================
+             DASHBOARD
+        =================================================== -->
+
+        <section
+            id="dashboard"
+            class="page active"
+        >
+
+            <div class="page-header">
+
+                <div>
+
+                    <h2>Dashboard</h2>
+
+                    <p>
+                        Your financial overview
+                    </p>
+
+                </div>
+
+
+                <div class="header-filter">
+
+                    <label for="dashboardMonth">
+                        Month
+                    </label>
+
+                    <input
+                        type="month"
+                        id="dashboardMonth"
+                    >
+
+                </div>
+
+            </div>
+
+
+
+            <!-- SUMMARY CARDS -->
+
+            <div class="card-grid">
+
+
+                <div class="card">
+
+                    <div class="card-icon">
+                        💰
+                    </div>
+
+                    <div>
+
+                        <p class="card-label">
+                            Income
+                        </p>
+
+                        <h3 id="incomeValue">
+                            ₹0.00
+                        </h3>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="card">
+
+                    <div class="card-icon">
+                        💸
+                    </div>
+
+                    <div>
+
+                        <p class="card-label">
+                            Expenses
+                        </p>
+
+                        <h3 id="expenseValue">
+                            ₹0.00
+                        </h3>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="card">
+
+                    <div class="card-icon">
+                        📈
+                    </div>
+
+                    <div>
+
+                        <p class="card-label">
+                            Surplus
+                        </p>
+
+                        <h3 id="surplusValue">
+                            ₹0.00
+                        </h3>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="card">
+
+                    <div class="card-icon">
+                        🎯
+                    </div>
+
+                    <div>
+
+                        <p class="card-label">
+                            Savings Rate
+                        </p>
+
+                        <h3 id="savingsRateValue">
+                            0.0%
+                        </h3>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- DASHBOARD CONTENT -->
+
+            <div class="two-column-grid">
+
+
+                <div class="panel">
+
+                    <div class="section-header">
+
+                        <div>
+
+                            <h3>
+                                Expense Breakdown
+                            </h3>
+
+                            <p>
+                                Where your recorded money is going
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div
+                        id="expenseBreakdown"
+                        class="category-list"
+                    >
+
+                        <div class="empty-state">
+                            No expenses are recorded yet.
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="panel chart-panel">
+
+                    <div class="section-header">
+
+                        <div>
+
+                            <h3>
+                                Spending Chart
+                            </h3>
+
+                            <p>
+                                Expense categories
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="chart-container">
+
+                        <canvas
+                            id="expenseChart"
+                        ></canvas>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ==================================================
+             TRANSACTIONS
+        =================================================== -->
+
+        <section
+            id="transactions"
+            class="page"
+        >
+
+            <div class="page-header">
+
+                <div>
+
+                    <h2>Transactions</h2>
+
+                    <p>
+                        Manage your income and expenses
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ADD TRANSACTION -->
+
+            <div class="panel">
+
+                <div class="section-header">
+
+                    <div>
+
+                        <h3>
+                            Add Transaction
+                        </h3>
+
+                        <p>
+                            Record your income or expense
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <form
+                    id="transactionForm"
+                    class="form-grid"
+                >
+
+
+                    <div class="form-group">
+
+                        <label for="transactionType">
+                            Type
+                        </label>
+
+                        <select
+                            id="transactionType"
+                            required
+                        >
+
+                            <option value="income">
+                                Income
+                            </option>
+
+                            <option value="expense">
+                                Expense
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+
+                    <div class="form-group">
+
+                        <label for="transactionCategory">
+                            Category
+                        </label>
+
+                        <input
+                            type="text"
+                            id="transactionCategory"
+                            placeholder="e.g. Salary, Food, Travel"
+                            required
+                        >
+
+                    </div>
+
+
+
+                    <div class="form-group">
+
+                        <label for="transactionAmount">
+                            Amount
+                        </label>
+
+                        <input
+                            type="number"
+                            id="transactionAmount"
+                            placeholder="₹0.00"
+                            min="0.01"
+                            step="0.01"
+                            required
+                        >
+
+                    </div>
+
+
+
+                    <div class="form-group">
+
+                        <label for="transactionDate">
+                            Date
+                        </label>
+
+                        <input
+                            type="date"
+                            id="transactionDate"
+                            required
+                        >
+
+                    </div>
+
+
+
+                    <div class="form-group full-width">
+
+                        <label for="transactionDescription">
+                            Description
+                        </label>
+
+                        <input
+                            type="text"
+                            id="transactionDescription"
+                            placeholder="Optional description"
+                        >
+
+                    </div>
+
+
+
+                    <div class="form-actions full-width">
+
+                        <button
+                            type="submit"
+                            class="primary-button"
+                        >
+                            Add Transaction
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+
+
+            <!-- TRANSACTION HISTORY -->
+
+            <div class="panel">
+
+                <div class="section-header">
+
+                    <div>
+
+                        <h3>
+                            Transaction History
+                        </h3>
+
+                        <p>
+                            Your recorded financial activity
+                        </p>
+
+                    </div>
+
+
+                    <div class="transaction-filters">
+
+                        <input
+                            type="month"
+                            id="transactionMonth"
+                            title="Filter by month"
+                        >
+
+
+                        <select
+                            id="transactionTypeFilter"
+                            title="Filter by transaction type"
+                        >
+
+                            <option value="all">
+                                All Types
+                            </option>
+
+                            <option value="income">
+                                Income
+                            </option>
+
+                            <option value="expense">
+                                Expense
+                            </option>
+
+                        </select>
+
+
+                        <input
+                            type="text"
+                            id="transactionCategoryFilter"
+                            placeholder="Category"
+                            title="Filter by category"
+                        >
+
+
+                        <button
+                            type="button"
+                            class="secondary-button"
+                            id="clearTransactionFilters"
+                        >
+                            Clear
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="table-container">
+
+                    <table class="data-table">
+
+                        <thead>
+
+                            <tr>
+
+                                <th>Date</th>
+
+                                <th>Type</th>
+
+                                <th>Category</th>
+
+                                <th>Amount</th>
+
+                                <th>Description</th>
+
+                                <th>Action</th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody
+                            id="transactionTableBody"
+                        >
+
+                            <tr>
+
+                                <td
+                                    colspan="6"
+                                    class="empty-state"
+                                >
+                                    Loading transactions...
+                                </td>
+
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ==================================================
+             GOALS
+        =================================================== -->
+
+        <section
+            id="goals"
+            class="page"
+        >
+
+            <div class="page-header">
+
+                <div>
+
+                    <h2>Financial Goals</h2>
+
+                    <p>
+                        Track your savings goals
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="panel">
+
+                <div class="section-header">
+
+                    <div>
+
+                        <h3>
+                            Add Goal
+                        </h3>
+
+                        <p>
+                            Create a target you want to achieve
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <form
+                    id="goalForm"
+                    class="form-grid"
+                >
+
+                    <div class="form-group">
+
+                        <label for="goalName">
+                            Goal Name
+                        </label>
+
+                        <input
+                            type="text"
+                            id="goalName"
+                            placeholder="e.g. New Laptop"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="goalTarget">
+                            Target Amount
+                        </label>
+
+                        <input
+                            type="number"
+                            id="goalTarget"
+                            placeholder="₹50,000"
+                            min="0.01"
+                            step="0.01"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="goalSaved">
+                            Already Saved
+                        </label>
+
+                        <input
+                            type="number"
+                            id="goalSaved"
+                            placeholder="₹0"
+                            min="0"
+                            step="0.01"
+                            value="0"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="goalMonthlySaving">
+                            Monthly Saving
+                        </label>
+
+                        <input
+                            type="number"
+                            id="goalMonthlySaving"
+                            placeholder="₹5,000"
+                            min="0"
+                            step="0.01"
+                            value="0"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="goalDeadline">
+                            Deadline
+                        </label>
+
+                        <input
+                            type="date"
+                            id="goalDeadline"
+                        >
+
+                    </div>
+
+
+                    <div class="form-actions full-width">
+
+                        <button
+                            type="submit"
+                            class="primary-button"
+                        >
+                            Add Goal
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+
+
+            <div
+                id="goalsContainer"
+                class="goals-grid"
+            >
+
+                <div class="empty-state">
+                    Loading goals...
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ==================================================
+             EMI
+        =================================================== -->
+
+        <section
+            id="emi"
+            class="page"
+        >
+
+            <div class="page-header">
+
+                <div>
+
+                    <h2>EMI Calculator</h2>
+
+                    <p>
+                        Calculate your monthly loan payment
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="panel">
+
+                <form
+                    id="emiForm"
+                    class="form-grid"
+                >
+
+                    <div class="form-group">
+
+                        <label for="principal">
+                            Loan Amount
+                        </label>
+
+                        <input
+                            type="number"
+                            id="principal"
+                            placeholder="₹100000"
+                            min="0.01"
+                            step="0.01"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="annualInterest">
+                            Annual Interest Rate (%)
+                        </label>
+
+                        <input
+                            type="number"
+                            id="annualInterest"
+                            placeholder="10"
+                            min="0"
+                            step="0.01"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="loanMonths">
+                            Duration (Months)
+                        </label>
+
+                        <input
+                            type="number"
+                            id="loanMonths"
+                            placeholder="24"
+                            min="1"
+                            step="1"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-actions full-width">
+
+                        <button
+                            type="submit"
+                            class="primary-button"
+                        >
+                            Calculate EMI
+                        </button>
+
+                    </div>
+
+                </form>
+
+
+                <div
+                    id="emiResult"
+                    class="result"
+                >
+
+                    Enter loan details to calculate EMI.
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ==================================================
+             WHAT IF
+        =================================================== -->
+
+        <section
+            id="whatif"
+            class="page"
+        >
+
+            <div class="page-header">
+
+                <div>
+
+                    <h2>What-If Analysis</h2>
+
+                    <p>
+                        See how changes could affect your recorded surplus
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="panel">
+
+                <form
+                    id="whatIfForm"
+                    class="form-grid"
+                >
+
+                    <div class="form-group">
+
+                        <label for="whatIfMonth">
+                            Month
+                        </label>
+
+                        <input
+                            type="month"
+                            id="whatIfMonth"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="incomeChange">
+                            Income Change
+                        </label>
+
+                        <input
+                            type="number"
+                            id="incomeChange"
+                            placeholder="e.g. 5000 or -2000"
+                            step="0.01"
+                            value="0"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="expenseChange">
+                            Expense Change
+                        </label>
+
+                        <input
+                            type="number"
+                            id="expenseChange"
+                            placeholder="e.g. 2000 or -500"
+                            step="0.01"
+                            value="0"
+                        >
+
+                    </div>
+
+
+                    <div class="form-actions full-width">
+
+                        <button
+                            type="submit"
+                            class="primary-button"
+                        >
+                            Run What-If
+                        </button>
+
+                    </div>
+
+                </form>
+
+
+                <div
+                    id="whatIfResult"
+                    class="result"
+                >
+
+                    Change income or expenses to see
+                    the effect on your surplus.
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ==================================================
+             AI
+        =================================================== -->
+
+        <section
+            id="ai"
+            class="page"
+        >
+
+            <div class="page-header">
+
+                <div>
+
+                    <h2>FinPilot AI</h2>
+
+                    <p>
+                        Ask questions and get intelligent
+                        analysis of your finances
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="panel ai-card">
+
+                <div class="form-group">
+
+                    <label for="aiQuestion">
+                        Ask FinPilot
+                    </label>
+
+
+                    <textarea
+                        id="aiQuestion"
+                        placeholder="Ask something like:
+Analyze my finances and tell me what I should focus on next."
+                        rows="5"
+                    ></textarea>
+
+
+                    <small class="input-hint">
+                        Press Enter to ask.
+                        Press Shift + Enter for a new line.
+                    </small>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    id="askAIButton"
+                    class="primary-button"
+                >
+                    🤖 Ask FinPilot
+                </button>
+
+
+
+                <div
+                    id="aiResult"
+                    class="result ai-response"
+                >
+
+                    Ask FinPilot a question to get
+                    a human-readable financial analysis.
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ==================================================
+             SETTINGS
+        =================================================== -->
+
+        <section
+            id="settings"
+            class="page"
+        >
+
+            <div class="page-header">
+
+                <div>
+
+                    <h2>Settings</h2>
+
+                    <p>
+                        FinPilot system information
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="panel">
+
+                <h3>
+                    Local AI
+                </h3>
+
+
+                <div class="settings-row">
+
+                    <span>
+                        Ollama Status
+                    </span>
+
+                    <strong
+                        id="ollamaStatus"
+                    >
+                        Checking...
+                    </strong>
+
+                </div>
+
+
+                <div class="settings-row">
+
+                    <span>
+                        Installed Models
+                    </span>
+
+                    <strong
+                        id="ollamaModel"
+                    >
+                        Checking...
+                    </strong>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    class="secondary-button"
+                    id="refreshOllama"
+                >
+                    Refresh Status
+                </button>
+
+            </div>
+
+
+
+            <div class="panel">
+
+                <h3>
+                    About FinPilot
+                </h3>
+
+                <p>
+                    FinPilot is a local finance assistant
+                    using Flask, SQLite and Ollama.
+                </p>
+
+                <p>
+                    Your recorded financial information
+                    remains in the local FinPilot database.
+                </p>
+
+            </div>
+
+        </section>
+
+
+    </main>
+
+</div>
+
+
+<!-- =========================================================
+     JAVASCRIPT
+========================================================= -->
+
+<script
+    src="{{ url_for('static', filename='script.js') }}"
+></script>
+
+
+</body>
+
+</html>
